@@ -1,0 +1,30 @@
+name: Cache Test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Cache dependencies
+        id: cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/example
+          key: cache-73ae542
+
+      - name: prime-cache-73ae542
+        run: echo "Cache status: ${{ steps.cache.outputs.cache-hit }}"
+
+      - name: Dummy step to create cache content
+        run: |
+          mkdir -p ~/.cache/example
+          echo "Hello cache" > ~/.cache/example/file.txt
