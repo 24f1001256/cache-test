@@ -3,6 +3,8 @@ name: Cache Test
 on:
   push:
     branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
   build:
@@ -12,7 +14,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Cache example
+      - name: Cache dependencies
         id: cache
         uses: actions/cache@v4
         with:
@@ -22,7 +24,7 @@ jobs:
       - name: prime-cache-73ae542
         run: echo "Cache status: ${{ steps.cache.outputs.cache-hit }}"
 
-      - name: Dummy step to create cache
+      - name: Dummy step to create cache content
         run: |
           mkdir -p ~/.cache/example
           echo "Hello cache" > ~/.cache/example/file.txt
